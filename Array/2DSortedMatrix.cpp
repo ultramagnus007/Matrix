@@ -74,34 +74,37 @@ void BinaryPartition(vector<vector<int>> &a, int key, int top, int bottom, int l
 		return;
 	int col = (left+right)/2;
 	int row = bsearch(a, key, top, bottom, col);
-	if(row == -1)
-		return;
 	if(a[row][col] == key)
 	{
 		cout<<row<<","<<col<<endl;
 		return;
 	}
-	BinaryPartition(a, key, top, row-1, col+1, right);
-	BinaryPartition(a, key, row+1, bottom, left, col-1);
+	if(key > a[row][col])
+	{
+		BinaryPartition(a, key, top, row, col+1, right);
+		BinaryPartition(a, key, row+1, bottom, left, col-1);
+	}else
+	{
+		BinaryPartition(a, key, top, row-1, col+1, right);
+		BinaryPartition(a, key, row, bottom, left, col-1);
+	}
 }
 
 int main()
 {
-	const int N = 4;
-	const int M = 4;
-
-	vector<vector<int>> a = 
-				{
-		          {10, 20, 30, 40},
-                  {15, 25, 35, 45},
-                  {27, 29, 37, 48},
-                  {32, 33, 39, 50},
-                };
-	
-
+	const int N = 5;
+	const int M = 7;
+	int count = 0;
+	vector<vector<int>> a(N);
+	for(auto &v: a)
+	{
+		v.resize(M);
+		for(auto &x: v)
+			x = ++count;
+	}
     for(int i = 0 ; i < N; i++)
     for(int j = 0; j < M; j++)
-		BinaryPartition(a, a[i][j], 0, 0, N-1, M-1);
+		BinaryPartition(a, a[i][j], 0, N-1, 0, M-1);
 
 	//search(a, a[i][j]);
     //QuadPartition(a, a[i][j], 0 , N-1, 0 , M-1);

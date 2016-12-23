@@ -4,7 +4,7 @@ using namespace std;
 
 node::node(int key, int val)
 {
-	left = right = NULL;
+	left = right = next = NULL;
 	this->key = key;
 	this->val = val;
 }

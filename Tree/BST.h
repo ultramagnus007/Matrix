@@ -4,7 +4,7 @@ class node
 {
 	public:
 	node(int key = -1, int val = -1);
-	node * left, * right;
+	node * left, * right, * next;
 	int key;
 	int val;
 };
