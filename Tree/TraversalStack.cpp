@@ -28,16 +28,22 @@ void inorderStack(node * ptr)
 	if(ptr == NULL)
 		return;
 	stack<node *> S;
-	S.push(ptr)
-	while()
+	S.push(ptr);
+	while(!S.empty())
 	{
 		ptr = S.top();
-		if(ptr->right != NULL)
+		S.pop();
+		node * r = S.empty()?NULL:S.top();
+		if(ptr->right == r)
 		{
-			if(!(S.empty() || S.top()==ptr->right))
-					S.push(ptr->right);
+			cout<<ptr->key<<" ";
+			continue;
 		}
-		if()
+		if(ptr->right != NULL)
+			S.push(ptr->right);
+		S.push(ptr);
+		if(ptr->left != NULL)
+			S.push(ptr->left);
 	}
 	cout<<endl;
 }

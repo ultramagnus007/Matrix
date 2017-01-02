@@ -33,7 +33,10 @@ int main()
 		//MergeSort(a);
 		//MergeAlternateSort(a);
 		//QuickSort(a);
-		QuickSort3Way(a);
+		//QuickSort3Way(a);
+		//RadixSortLSD(a);
+		//ShellSort(a);
+		RadixSortMSD(a);
 		issorted &= isSorted(a);
 		if(!issorted)
 			break;

@@ -11,4 +11,7 @@ void MergeSort(vector<int> &a);
 void MergeAlternateSort(vector<int> &a);
 void QuickSort(vector<int> &a);
 void QuickSort3Way(vector<int> &a);
+void RadixSortLSD(vector<int> &a);
+void RadixSortMSD(vector<int> &a);
+void ShellSort(vector<int> &a);
 #endif
