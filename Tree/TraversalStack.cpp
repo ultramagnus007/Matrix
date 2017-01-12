@@ -34,7 +34,7 @@ void inorderStack(node * ptr)
 		ptr = S.top();
 		S.pop();
 		node * r = S.empty()?NULL:S.top();
-		if(ptr->right == r)
+		if(r != NULL && (ptr->right == r || r->left == ptr))
 		{
 			cout<<ptr->key<<" ";
 			continue;
