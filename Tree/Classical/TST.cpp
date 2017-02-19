@@ -1,90 +1,91 @@
-#include "TST.h"
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
+
+class node
+{
+	public:
+	node(char key = '\0', int val = 0);
+	node *left, *mid, *right;
+	char key;
+	int val;
+};
 
 node::node(char key, int val)
 {
+	left = mid = right = NULL;
 	this->key = key;
 	this->val = val;
-	left = mid = right = NULL;
 }
 
-TST::TST()
+class TST
 {
-	root = NULL;
-}
+	public:
+	TST(){root = NULL;}
+	void insert(const string& str, int val = -1);
+	int find(const string& str);
+	private:
+	node * insert(node* ptr, const string& str, int i, int val);
+	node * root;
+};
 
-void TST::insert(string &str, int val)
-{	
-	root = insert(root, 0, str, val);
-}
-
-
-node * TST::insert(node * ptr, int i, string &str, int val)
+void TST::insert(const string& str, int val)
 {
-	if(i == str.length())
-		return ptr;
+	if(str.size() == 0)
+		return;
+	root = insert(root, str, 0, val);
+}
+
+node * TST::insert(node* ptr, const string& str, int i, int val)
+{
 	if(ptr == NULL)
+		ptr = new node(str[i]);
+	if(i == str.size()-1)
 	{
-		if(i+1 == str.length())
-			ptr = new node(str[i], val);	
-		else
-			ptr = new node(str[i]);	
-	}else
-	{
-		if(ptr->val == -1 && i+1 == str.length())
-			ptr->val = val;
+		ptr->val = val;
+		return ptr;
 	}
-
-
-	if(ptr->key == str[i])
-		ptr->mid = insert(ptr->mid, i+1, str, val);
-	else if(str[i] < ptr->key)
-		ptr->left = insert(ptr->left, i, str, val);
+	if(str[i] < ptr->key)
+		ptr->left = insert(ptr->left, str, i, val);
+	else if(str[i] == ptr->key)
+		ptr->mid = insert(ptr->mid, str, i+1, val);
 	else
-		ptr->right = insert(ptr->right, i, str, val);
+		ptr->right = insert(ptr->right, str, i, val);
 	return ptr;
 }
 
-int TST::find(string &str)
+int TST::find(const string& str)
 {
 	int i = 0;
 	node * ptr = root;
-	node * preptr = NULL;
-	while(ptr != NULL && i != str.length())
+	while(i != str.size() && ptr != NULL)
 	{
-		if(ptr->key == str[i])
-		{
-			preptr = ptr;
-			ptr = ptr->mid;
-			i++;
-		}
-		else if(str[i] < ptr->key)
-			ptr = ptr->left; 
-		else
+		if(ptr->key < str[i])
 			ptr = ptr->right;
+		else if(ptr->key > str[i])
+			ptr = ptr->left;
+		else
+		{
+			i++;
+			if(i == str.size())
+				return ptr->val;
+			ptr  = ptr->mid;
+		}
 	}
-	if(i == str.length() && preptr != NULL)
-		return preptr->val;
-	else
-		return -1;
+	return -1;
 }
 
-
-#if 0
 int main()
 {
-        TST T;
-        vector<string> a = {"amit", "anil", "nittin", "alonso", "kimi", "raikkonen"};
-        int n = a.size();
-        for(int i = 0; i < n; i++)
-                T.insert(a[i], (i+1)*(i+1));
-        for(int i = 0; i < n; i++)
-                cout<<a[i]<<" "<<T.find(a[i])<<endl;
-        cout<<endl;
-	string s("unsu");
-        cout<<"unsu = "<<T.find(s)<<endl;
+	TST T;
+	vector<string>a = {"amit", "anil", "nittin", "alonso", "kimi", "raikkonen"};
+	for(int i = 0 ; i < a.size(); i++)
+		T.insert(a[i], (i+1)*(i+1));
+	for(int i = 0; i < a.size(); i++)
+		cout<<T.find(a[i])<<" "<<a[i]<<endl;
+	cout<<T.find("amitasdasdddd")<<endl;
+	cout<<T.find("unsu")<<endl;
 	return 0;
 }
-#endif
+
